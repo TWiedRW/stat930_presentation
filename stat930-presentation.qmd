@@ -402,13 +402,16 @@ Similar to soybean height, unhilling earlier in the season generally decreased s
 - No method completely prevented SGM larvae from getting into the stems
 :::
 
+![](https://www.gaonconnection.com/h-upload/2019/10/04/340862-img20190919103557.jpg){width='50%' fig-align='center'}
+
 # STAT 930 Reflection
 
 ## STAT 930 Reflection
 
+::: {.incremental}
+
 - Good clients overall this semester
 
-::: {.incremental}
 - No follow-ups with clients
 
 - Some issues with communications
@@ -416,18 +419,16 @@ Similar to soybean height, unhilling earlier in the season generally decreased s
   
 - Client projects
   1) Measurements on different types of asphalt
-    - One factor experiments where there were sometimes one experimental unit
+      - One factor experiments where there were sometimes one experimental unit
   2) Survey data on crop fields with a particular disease
-    - Lots of graphs and tables to answer "what are some commonalities in the data?"
-    - Directed to NEAR center for future surveys
-    - Client not sure of research question
+      - Lots of graphs and tables to answer "what are some commonalities in the data?"
+      - Directed to NEAR center for future surveys
+      - Client not sure of research question
   3) Bike trails and improvements on quality of life metrics
-    - Small sample size and nothing was significant
+      - Small sample size and nothing was significant
   4) Soybean pest infestation (project from today's talk)
-    - Many GLMMs
-    - Models did not converge with "full models."
-  5) Student performance and behavior surveys
-    - Directed to NEAR center
+      - Many GLMMs
+      - Models did not converge with "full models."
 
 :::
 
