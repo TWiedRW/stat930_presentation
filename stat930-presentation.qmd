@@ -192,55 +192,53 @@ p.conditions
 -   One possible method, the subject of today's talk, is to cover the stems of soybeans with dirt
 
     -   A process known as hilling
+    
+# Statistical Background
 
-# Two Studies on the Effects of Hilling
 
-## Hilling Study
+## Generalized Linear Mixed Models 
 
-Does hilling at a particular stage in the soybean growth cycle help to decrease the number of soybean gall midge (SGM) larvae?
+::: {.incremental}
 
--   In 2022, a study was conducted as a randomized complete block design (RCBD) and measured the count of SGM larvae.
-    -   An infested field had four rows where each row was used as a block
-    -   Within each field row, four treatments were randomly applied to a section
-        -   No hilling (control)
-        -   Hilling at V2, V5, and R2 soybean growth stages
-    -   Measurements were taken at approximately two-week intervals
+Generalized Linear Mixed Models (GLMMs) are a large class of models in experimental design
 
-![](https://www.dekalbasgrowdeltapine.com/content/dam/knowledge-transfer/en/assets/image-library/infographics/2020090101.jpg){width="25%" fig-align="center"}
+  - Generalized: account for various types of data, such as counts or proportions
 
-## Hilling Study: Fitted Model
+  - Linear: models that can be expressed in the form $\eta=X\beta+Zb$, where $\beta$ is a vector of fixed effect coefficients and $b$ is a vector of random effect coefficients
 
-```{=tex}
-\begin{equation}
-    \eta_{ijk}=\eta + \tau_i + S_j + (\tau S)_{ij} + (B \tau)_{ik} + S(B\tau)_{ijk}
-\end{equation}
-```
-Where
+  - Mixed: models that contain multiple random effects
 
--   $\eta$ is the intercept
+Each term in the model is considered "fixed" or "random"
 
--   $\tau_i$ is the $i^{th}$ hilling date
+  - An effect is "random" if it is representative of a larger population, and "fixed" if not
 
--   $S_j$ is the $j^{th}$ sample date
+    - For example, consider a field that is sectioned into three parts: A, B, and C
+      - If the researchers want to extend the results to other sections, then the effect of the field part is random
+      - If the researchers are only interested in parts A, B, and C, then the effect of the field part is fixed
+      
+:::   
+      
+## Generalized Linear Mixed Models 
 
--   $(\tau S)_{ij}$ is the interaction between the $i^{th}$ hilling date and the $j^{th}$ sample date
+::: {.incremental}
 
--   $(B \tau)_{ik}\sim N(0, \sigma^2_{A})$ is the random interaction effect between the $i^{th}$ treatment and the $k^{th}$ field row
+Each GLMM needs to have a few specifications
 
--   $S(B\tau)_{ijk}\sim N(0, \sigma^2_{B})$ is the random effect of the $i^{th}$ hilling date, $j^{th}$ sample date, and the $k^{th}$ row
+  - Distribution of observations: $y|b\sim Normal, Poisson, etc\dots$
+    - "What form do the responses take?"
+      - Count, proportion, 
 
--   Distribution: $y_{ijk}|(B \tau)_{ij}, S(B\tau)_{ijk}\sim Poisson(\lambda_{ijk})$, where $y_{ijk}$ is the count of SGM larvae
+  - Linear predictor: $\eta=X\beta+Zb$
+    - This is how we fit the model to the experimental design
+    
+  - Link function: $\eta=g(\mu|b)$
+    - Where the linear predictor is applied with respect to the distribution of the observations
+      - For example, $y|b\sim Poisson(\lambda)$ has a link function of $\eta=\log(\lambda)$. That is, the linear predictor is fit to the log of the mean of the Poisson distribution
 
--   Link function: $\eta_{ijk}=\log(\lambda_{ijk})$
+:::
 
-## Hilling Study: Results
 
-![](images/plots/LS-Hilling-ModelScale.png){width="50%" fig-align="center"}
-
--   Some evidence of interaction between sample date and timing for application of hilling
--   Only a few differences detected
-    -   July 5, differences between control and V2 (Treatments 1 and 2, p-value = .0203) and between V2 and R2 (Treatments 2 and 4, p-value = .0351)
--   Possible evidence that hilling at the V2 stage help reduce SGM larvae counts?
+# A Study on the Effects of Removing Hilling
 
 ## Unhilling Study
 
@@ -250,15 +248,15 @@ Two primary research questions:
 
 2)  How does unhilling affect soybean growth/yield?
 
--   Study design is similar to the hilling study (RCBD)
+  -   Field organized into two rows and two columns, with each section acting as a block
 
-    -   Field organized into two rows and two columns, with each section acting as a block
+  -   Seven treatments of unhilling dates approximately two weeks apart (one left unhilled at the start of the study as a control)
 
-    -   Seven treatments of unhilling dates approximately two weeks apart (one left unhilled at the start of the study as a control)
+  -   For (1), larvae counts were taken approximately every two weeks
 
-    -   For (1), larvae counts were taken approximately every two weeks
-
-    -   For (2), growth/yield metrics were taken at the end of the growing season
+  -   For (2), growth/yield metrics were taken at the end of the growing season
+  
+  ![](https://www.dekalbasgrowdeltapine.com/content/dam/knowledge-transfer/en/assets/image-library/infographics/2020090101.jpg){width="25%" fig-align="center"}
 
 ## Unhilling Study: Fitted Model (1)
 
