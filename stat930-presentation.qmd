@@ -9,6 +9,8 @@ format:
   revealjs:
     self-contained: true
     navigation-mode: vertical
+    slide-number: true
+    show-slide-number: print
     theme: [styles.css, fonts.css, default]
     logo: images/N.svg
 ---
@@ -30,6 +32,19 @@ library(tidyverse)
 library(gridExtra)
 suppressPackageStartupMessages(library(nullabor))
 ```
+
+# Introduction
+
+A new pest, the soybean gall midge, is causing damage soybean fields in the midwestern United States. 
+
+Topics of today's talk:
+
+  1) Soybean background
+  2) A new pest, soybean gall midge
+  3) Statistical background
+  4) A study on a preventative measure
+  5) Discussion of results
+  6) STAT 930 reflection
 
 # Soybean Background
 
@@ -70,6 +85,10 @@ ggplot(mapping = aes(x = Week.Ending, y = Value, fill = Condition)) +
         legend.position = 'bottom',
         strip.text.y = element_text(angle = 0)) +
   scale_y_continuous(breaks = NULL)
+
+
+
+
 
 production = read.csv('data/soybean_production.csv') %>% 
   filter(State %in% states, Period == 'YEAR') %>% 
@@ -132,33 +151,65 @@ p.yield = yield %>%
 
 ![](https://cropwatch.unl.edu/soybeanMG/images/soyMan01.jpg){width="25%" fig-align="center"}
 
+::: {.notes}
+
+Top five soybean producing states
+
+  - Illinois
+  - Iowa
+  - Minnesota
+  - Indiana
+  - Ohio
+  
+About 77 percent is for animal feed, 24 percent for food products, 13.6 percent for cooking oil, 5 percent for biodiesel, and 1.4 percent for industrial uses
+
+
+:::
+
 ------------------------------------------------------------------------
 
-![](images/soybean_uses.jpg){width="90%" fig-align="center"}
 
-------------------------------------------------------------------------
 
 ```{r, out.width='90%'}
 p.market
 ```
 
+::: {.notes}
+
+Market share in summer months is between 3 and 20 percent
+
+:::
+
+
 ------------------------------------------------------------------------
 
-```{r, out.width='90%'}
-p.prod
-```
 
-------------------------------------------------------------------------
 
 ```{r, out.width='90%'}
-p.yield
+p.yield + ggtitle('Annual Yield of Soybean')
 ```
+
+::: {.notes}
+
+BU stands for bushel, 1 BU for soybean is 60 lbs at 13 percent moisture
+
+For the past 9 years, yield per acre is between 40 and 65 bushels per acre
+
+:::
 
 ------------------------------------------------------------------------
 
 ```{r, out.width='90%'}
 p.conditions
 ```
+
+::: {.notes}
+
+Each year has its own set of conditions, but most ratings are between fair and good. 
+
+Overall, fairly decent at the state level
+
+:::
 
 # Soybean Gall Midge
 
@@ -168,6 +219,12 @@ p.conditions
 -   Entomologists received reports of larvae infestations in 2018 for an unknown species causing significant damage
 
 ![](images/larvae.jpg){width="50%" fig-align="center"}
+
+::: {.notes}
+
+No larvae samples were taken after that 2011 hailstorm, so there was nothing to compare the new larvae to 
+
+:::
 
 ## A new pest
 
@@ -181,9 +238,17 @@ p.conditions
 -   Initially found on damaged plants at the end of the growing season, causing little economic concern
 -   In 2018, an infestation warranted further concerns when a sample of damaged plants from earlier in the growing season had no other detectable plant diseases
 -   Insects were identified as a new species in the Resseliella genus
--   Females lay eggs in damaged parts of soybean stems (including naturally occurring fissures) and larvae eat away at the stem
+-   Females lay eggs in damaged parts of soybean stems and larvae eat away at the stem
 
 ![](https://assets.syngentaebiz.com/images/SGM%20life%20cycle.jpg){width="50%" fig-align="center"}
+
+::: {.notes}
+
+Pronounce resseliella: "ress-a-lee-lla"
+
+Cracks and fissures in the stems of soybeans can happen due to natural growth, plant disease, and from external trauma
+
+:::
 
 ## Possible solutions
 
@@ -208,7 +273,13 @@ Generalized Linear Mixed Models (GLMMs) are a large class of models in experimen
 
   - Mixed: models that contain multiple random effects
 
-Each term in the model is considered "fixed" or "random"
+:::
+
+## Generalized Linear Mixed Models 
+
+  Each term in the model is considered "fixed" or "random"
+
+::: {.incremental}
 
   - An effect is "random" if it is representative of a larger population, and "fixed" if not
 
@@ -217,6 +288,13 @@ Each term in the model is considered "fixed" or "random"
       - If the researchers are only interested in parts A, B, and C, then the effect of the field part is fixed
       
 :::   
+
+::: {.notes}
+
+Assumes that the sections are representative of a larger population of sections
+
+:::
+
       
 ## Generalized Linear Mixed Models 
 
@@ -226,7 +304,7 @@ Each GLMM needs to have a few specifications
 
   - Distribution of observations: $y|b\sim Normal, Poisson, etc\dots$
     - "What form do the responses take?"
-      - Count, proportion, 
+      - Count, proportion, etc.
 
   - Linear predictor: $\eta=X\beta+Zb$
     - This is how we fit the model to the experimental design
@@ -234,11 +312,20 @@ Each GLMM needs to have a few specifications
   - Link function: $\eta=g(\mu|b)$
     - Where the linear predictor is applied with respect to the distribution of the observations
       - For example, $y|b\sim Poisson(\lambda)$ has a link function of $\eta=\log(\lambda)$. That is, the linear predictor is fit to the log of the mean of the Poisson distribution
+    - Maps the responses of the data to real numbers
+
+:::
+
+::: {.notes}
+
+The inverse link function expresses the expected value of the observations as a function of the linear predictor.
+
+Also need the distribution of the random effects, but these are almost always assumed to normal around zero
 
 :::
 
 
-# A Study on the Effects of Removing Hilling
+# A Study on the Effects of Hilling
 
 ## Unhilling Study
 
@@ -257,6 +344,17 @@ Two primary research questions:
   -   For (2), growth/yield metrics were taken at the end of the growing season
   
   ![](https://www.dekalbasgrowdeltapine.com/content/dam/knowledge-transfer/en/assets/image-library/infographics/2020090101.jpg){width="25%" fig-align="center"}
+  
+::: {.notes}
+
+All soybean plants receive hilling (except for control) and the treatment is removing the physical barrier
+
+Each unhilling date roughly corresponds to a different stage of the soybean growth cycle
+
+These studies were conducted in a single field in Nebraska (I would assume at UNL since this is where the the consulting client came from)
+
+:::
+  
 
 ## Unhilling Study: Fitted Model (1)
 
@@ -292,7 +390,7 @@ Differences in unhilling dates for sample date D
 
 | Unhilling Differences | Treatments | Effect  | P-value  |
 |-----------------------|------------|---------|----------|
-| Control and July 15   | 1 - 4      | -135.75 | 0.0022   |
+| Control and July 15   | 1 - 3      | -135.75 | 0.0022   |
 | Control and August 1  | 1 - 5      | 105     | 0.0973\* |
 | Control and August 15 | 1 - 6      | 128.5   | 0.006    |
 | Control and August 31 | 1 - 7      | 142.25  | 0.0009   |
@@ -304,11 +402,23 @@ Differences in unhilling dates for sample date D
 
 Differences marked with an asterisk (\*) are considered marginally significant. There were no other significant simple effect differences for each sample date.
 
+::: {.notes}
+
+All p-values were adjusted with Tukey's honest significant difference. This helps to reduce the probability of Type I errors, which is when we incorrectly detect a difference
+
+:::
+
 ## Unhilling Study: Results (1)
 
 ![](images/plots/LS-UnhillingRpt-DataScale.png){width="70%" fig-align="center"}
 
 Larger treatment numbers denote a later date for unhilling. Trends indicate that unhilling earlier in the season have larger counts of SGM larvae.
+
+::: {.notes}
+
+Unhilling earlier in the season tends to increase the SGM larvae counts. 
+
+:::
 
 ## Unhilling Study: Fitted Model (2)
 
@@ -341,52 +451,72 @@ The model is then fit the these specifications
 | Seed weight    | $y|B\sim Normal(\mu, \sigma^2)$ | $\eta_{i}=\mu_i$           | No adjustments                                       |
 | Count of seeds | $y|B\sim Negbin(\lambda)$       | $\eta_{i}=\log(\lambda_i)$ | Removal of $B_i$ term and $\epsilon_{ijk}$; KR2      |
 
+
+::: {.notes}
+
+We will only talk about soybean height and the count of seeds. The other responses follow similar patterns.
+
+:::
+
 ## Unhilling Study: Results (2) - Soybean Height
 
 | Unhilling Date     | Estimate |     |     |
 |--------------------|----------|-----|-----|
 | August 15th        | 77.375   |     | A   |
-|                    |          |     | A   |
 | August 1st         | 75.35    |     | A   |
-|                    |          |     | A   |
 | July 15th          | 73.6     |     | A   |
-|                    |          |     | A   |
 | July 1st           | 70.4     |     | A   |
-|                    |          |     | A   |
 | August 31st        | 64.025   | B   | A   |
-|                    |          | B   |     |
 | June 16th          | 50.975   | B   |     |
 | Unhilled (control) | 32.85    |     | C   |
 
+::: {.notes}
+
+Unhilling dates that have the same letter are not considered to be significantly different, based on Tukey adjusted p-values
+
 In general, unhilling earlier in the growing season decreases soybean height
+
+:::
 
 ## Unhilling Study: Results (2) - Soybean Height
 
 ![](images/plots/LS-Height.png){width="70%"}
+
+::: {.notes}
+
+Recall that smaller treatment numbers are earlier dates of unhilling
+
+:::
+
 
 ## Unhilling Study: Results (2) - Soybean Seed Count
 
 | Unhilling date | Estimate |     |     |
 |----------------|----------|-----|-----|
 | August 15th    | 118.96   |     | A   |
-|                |          |     | A   |
 | August 1st     | 100.81   |     | A   |
-|                |          |     | A   |
 | July 15th      | 96.87    |     | A   |
-|                |          |     | A   |
 | August 31st    | 94.26    | B   | A   |
-|                |          | B   | A   |
 | July 1st       | 77.80    | B   | A   |
-|                |          | B   | A   |
 | June 16th      | 8.05     | B   | A   |
-|                |          | B   |     |
 | Unhilled (control)      | 5.12     | B   |     |
+
+
+::: {.notes}
+
+Unhilling earlier in the season has smaller seed count. This means that having the preventative measure earlier in the growing season was better for the overall outcome
+
+:::
 
 ## Unhilling Study: Results (2) - Soybean Seed Count
 
 ![](images/plots/LS-SeedCount.png){width="70%"}
 
+::: {.notes}
+
 Similar to soybean height, unhilling earlier in the season generally decreased soybean seed counts
+
+:::
 
 # Discussion
 
@@ -401,6 +531,17 @@ Similar to soybean height, unhilling earlier in the season generally decreased s
 :::
 
 ![](https://www.gaonconnection.com/h-upload/2019/10/04/340862-img20190919103557.jpg){width='50%' fig-align='center'}
+
+## Future work
+
+::: {.incremental}
+
+- Replicate the results of the study Latin square design
+
+- Work with other fields outside of Nebraska
+
+:::
+
 
 # STAT 930 Reflection
 
