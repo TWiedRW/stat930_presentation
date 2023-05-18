@@ -277,27 +277,6 @@ Generalized Linear Mixed Models (GLMMs) are a large class of models in experimen
 
 ## Generalized Linear Mixed Models 
 
-  Each term in the model is considered "fixed" or "random"
-
-::: {.incremental}
-
-  - An effect is "random" if it is representative of a larger population, and "fixed" if not
-
-    - For example, consider a field that is sectioned into three parts: A, B, and C
-      - If the researchers want to extend the results to other sections, then the effect of the field part is random
-      - If the researchers are only interested in parts A, B, and C, then the effect of the field part is fixed
-      
-:::   
-
-::: {.notes}
-
-Assumes that the sections are representative of a larger population of sections
-
-:::
-
-      
-## Generalized Linear Mixed Models 
-
 ::: {.incremental}
 
 Each GLMM needs to have a few specifications
@@ -363,9 +342,22 @@ These studies were conducted in a single field in Nebraska (I would assume at UN
     \eta_{ijk}=\eta + \tau_i + S_j + (\tau S)_{ij}  + S(B\tau)_{ijk}
 \end{equation}
 ```
--   Terms are defined the same as the hilling study
--   $y_{ijk}| S(B\tau)_{ijk}\sim Poisson(\lambda_{ijk})$
--   $\eta_{ijk}=\log(\lambda_{ijk})$
+where
+
+- $\eta$ is the intercept
+- $\tau_i$ is the effect of the $i^{th}$ unhilling date
+- $S_j$ is the effect of the $j^{th}$ sample date
+- $(\tau S)_{ij}$ is the interaction effect between the $i^{th}$ unhilling date and the $j^{th}$ sample date
+- $S(B\tau)_{ijk}$ is the effect of the $i^{th}$ unhilling date, $j^{th}$ sample date, and the $k^{th}$ field section (block)
+
+-   Response distribution: $y_{ijk}| S(B\tau)_{ijk}\sim Poisson(\lambda_{ijk})$
+-   Link function: $\eta_{ijk}=\log(\lambda_{ijk})$
+
+::: {.notes}
+
+This was fit with a first order autoregressive structure, which means that the previous time point is correlated with the next value.
+
+:::
 
 ## Unhilling Study: Results (1)
 
@@ -375,7 +367,7 @@ Differences in unhilling dates for sample date C
 
 | Difference            | Treatments | Effect | P-value  |
 |-----------------------|------------|--------|----------|
-| Control and July 15   | 1, 4       | 111    | 0.0515\* |
+| Control and July 15   | 1, 3       | 111    | 0.0515\* |
 | Control and August 1  | 1, 5       | 119    | 0.0202   |
 | Control and August 15 | 1, 6       | 118.5  | 0.0215   |
 | Control and August 31 | 1, 7       | 114.25 | 0.0356   |
@@ -403,6 +395,10 @@ Differences in unhilling dates for sample date D
 Differences marked with an asterisk (\*) are considered marginally significant. There were no other significant simple effect differences for each sample date.
 
 ::: {.notes}
+
+In general, we see differences in larvae counts for the unhilling dates earlier in the growing season versus later in the growing season. The sample dates points also correspond with peak reproductive cycle of SGM, so it makes sense that we differences during this time
+
+Unfortunately, client did not provide the exact dates of the sample dates, but I made some reasonable guesses.
 
 All p-values were adjusted with Tukey's honest significant difference. This helps to reduce the probability of Type I errors, which is when we incorrectly detect a difference
 
@@ -504,6 +500,8 @@ Recall that smaller treatment numbers are earlier dates of unhilling
 
 ::: {.notes}
 
+The only difference is between the control and unhilling toward the end of the growing season, but estimates suggest the same conclusion as with the soybean heights
+
 Unhilling earlier in the season has smaller seed count. This means that having the preventative measure earlier in the growing season was better for the overall outcome
 
 :::
@@ -527,7 +525,6 @@ Similar to soybean height, unhilling earlier in the season generally decreased s
 
 - Protecting soybean stems via hilling earlier in the season decreased SGM larvae counts and improved soybean growth/yield metrics when there was an active SGM infestation
 
-- No method completely prevented SGM larvae from getting into the stems
 :::
 
 ![](https://www.gaonconnection.com/h-upload/2019/10/04/340862-img20190919103557.jpg){width='50%' fig-align='center'}
@@ -536,9 +533,19 @@ Similar to soybean height, unhilling earlier in the season generally decreased s
 
 ::: {.incremental}
 
-- Replicate the results of the study Latin square design
+- Replicate the results with other designs to help reduce variability 
+
+  - Latin squares/rectangles, etc. 
+  
+  - Find better ways to block sections for treatments
 
 - Work with other fields outside of Nebraska
+
+:::
+
+::: {.notes}
+
+This study often had negative block estimates, suggesting that the current blocking methods were not adequate. 
 
 :::
 
